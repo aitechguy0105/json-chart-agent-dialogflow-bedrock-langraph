@@ -26,7 +26,7 @@ os.environ["LANGCHAIN_PROJECT"] = "Reflection"
 
 # _set_if_undefined("FIREWORKS_API_KEY")
 
-example = """
+quickbase_chart_example = """
 user: Displays the number of works orders by status.
 answer:
     {
@@ -174,8 +174,7 @@ Here is rule for generating Quickbase query:
 ```
 Double check your work.
 """
-
-system_template = """
+quickbase_chart_system_template = """
 You are a chart agent generating chart in json format based on app information.
 app information:
 ```
@@ -261,8 +260,8 @@ ciritial_example = """"
         * Do not judge to be  WRONG after first compare "XYZ2" in chart json and "XYZ" in app schema.
 """
 
-system_message_prompt = SystemMessagePromptTemplate.from_template(system_template)
-quickbase_system_message_prompt = SystemMessagePromptTemplate.from_template(quickbase_query_system_template)
+quickbase_chart_system_message_prompt = SystemMessagePromptTemplate.from_template(quickbase_chart_system_template)
+quickbase_query_system_message_prompt = SystemMessagePromptTemplate.from_template(quickbase_query_system_template)
 reflection_message_prompt = SystemMessagePromptTemplate.from_template(reflection_system_template)
 # Set up the human template with a variable for the request
 human_template = """
@@ -270,19 +269,19 @@ human_template = """
 """
 human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
 
-prompt = ChatPromptTemplate.from_messages([system_message_prompt, human_message_prompt])
-quickbase_query_prompt = ChatPromptTemplate.from_messages([quickbase_system_message_prompt, human_message_prompt])
-prompt_generate = ChatPromptTemplate.from_messages([system_message_prompt, MessagesPlaceholder(variable_name='messages')])
+quickbase_chart_prompt = ChatPromptTemplate.from_messages([quickbase_chart_system_message_prompt, human_message_prompt])
+quickbase_query_prompt = ChatPromptTemplate.from_messages([quickbase_query_system_message_prompt, human_message_prompt])
+
+prompt_generate = ChatPromptTemplate.from_messages([quickbase_chart_system_message_prompt, MessagesPlaceholder(variable_name='messages')])
 reflection_prompt = ChatPromptTemplate.from_messages([reflection_message_prompt, MessagesPlaceholder(variable_name="messages")])
 
-print('==========prompt=======', prompt)
 # This is our only modification
 model = ChatOpenAI(
     model="gpt-4o",
     temperature=0,
 )
 
-chain = prompt | model
+quickbase_chart_chain = quickbase_chart_prompt | model
 quickbase_query_chain = quickbase_query_prompt | model
 generate = prompt_generate | model
 reflect = reflection_prompt | model
@@ -297,78 +296,84 @@ if __name__ == '__main__':
     with open('app_mapped.json', 'w') as file:
         json.dump(app_json_obj, file)
     
-    # response = chain.invoke({"context": app_json_str, "example": example, "request": "Displays the number of works orders assigned to each staff member"})
-    # print("=========answer: ", response.content)
-    # if response.content.find('```') != -1:
-    #     answer = response.content.split('```')[1]
-    #     answer = answer[4:] if answer.startswith('json') else answer
-    #     with open('output.json', 'w') as file:
-    #         output_json_obj = json.loads(answer)
-    #         json.dump(output_json_obj, file)
+    response = quickbase_chart_chain.invoke({"context": app_json_str, "example": quickbase_chart_example, "request": "Displays the number of works orders assigned to each staff member"})
+    print("============= quickbase chart =============", response.content)
+
+    if response.content.find('```') != -1:
+        answer = response.content.split('```')[1]
+        answer = answer[4:] if answer.startswith('json') else answer
+        with open('output.json', 'w') as file:
+            output_json_obj = json.loads(answer)
+            json.dump(output_json_obj, file)
     
     response = quickbase_query_chain.invoke({"context": quickbase_rules, "example": quickbase_query_example, "request": "4 contains fsdfdf and 7 contains ggggg "})
-    print(response.content)
-    # request = HumanMessage(
-    #     content="Displays the number of works orders assigned to each staff member"
-    # )
-    # chart = ""
-    # for chunk in generate.stream({"context": app_json_str, "example": example, "messages": [request]}):
-    #     print(chunk.content, end="")
-    #     chart += chunk.content
-        
-    # print("==========================generted chart json", chart)
-    # reflection = ""
-    # for chunk in reflect.stream({"context": app_json_str, "example": example, "critical_example": ciritial_example, "messages": [request, HumanMessage(content=chart)]}):
-    #     print(chunk.content, end="")
-    #     reflection += chunk.content
-    # print("==========================generted chart json reflection", reflection)
-
-
+    print("=============== quickbase query ===========\n", response.content)
     
-    # def generation_node(state: Sequence[BaseMessage]):
-    #     return generate.invoke({"context": app_json_str, "example": example, "messages": state})
+    b_langgraph_agent = True
+
+    if b_langgraph_agent:
+
+        request = HumanMessage(
+            content="Displays the number of works orders assigned to each staff member"
+        )
+        chart = ""
+        for chunk in generate.stream({"context": app_json_str, "example": quickbase_chart_example, "messages": [request]}):
+            print(chunk.content, end="")
+            chart += chunk.content
+            
+        print("==========================generted chart json", chart)
+        reflection = ""
+        for chunk in reflect.stream({"context": app_json_str, "example": quickbase_chart_example, "critical_example": ciritial_example, "messages": [request, HumanMessage(content=chart)]}):
+            print(chunk.content, end="")
+            reflection += chunk.content
+        print("==========================generted chart json reflection", reflection)
 
 
-    # def reflection_node(messages: Sequence[BaseMessage]) -> List[BaseMessage]:
-    #     # Other messages we need to adjust
-    #     cls_map = {"ai": HumanMessage, "human": AIMessage}
-    #     # First message is the original user request. We hold it the same for all nodes
-    #     translated = [messages[0]] + [
-    #         cls_map[msg.type](content=msg.content) for msg in messages[1:]
-    #     ]
-
-    #     print('=======================translated', translated)
-    #     res = reflect.invoke({"context": app_json_str, "example": example, "messages": translated})
-    #     # We treat the output of this as human feedback for the generator
-    #     return HumanMessage(content=res.content)
-
-    # builder = MessageGraph()
-    # builder.add_node("generate", generation_node)
-    # builder.add_node("reflect", reflection_node)
-    # builder.set_entry_point("generate")
+        
+        def generation_node(state: Sequence[BaseMessage]):
+            return generate.invoke({"context": app_json_str, "example": quickbase_chart_example, "messages": state})
 
 
-    # def should_continue(state: List[BaseMessage]):
-    #     if len(state) > 2:
-    #         # End after 3 iterations
-    #         return END
-    #     return "reflect"
+        def reflection_node(messages: Sequence[BaseMessage]) -> List[BaseMessage]:
+            # Other messages we need to adjust
+            cls_map = {"ai": HumanMessage, "human": AIMessage}
+            # First message is the original user request. We hold it the same for all nodes
+            translated = [messages[0]] + [
+                cls_map[msg.type](content=msg.content) for msg in messages[1:]
+            ]
+
+            # print('=======================translated', translated)
+            res = reflect.invoke({"context": app_json_str, "example": quickbase_chart_example, "messages": translated})
+            # We treat the output of this as human feedback for the generator
+            return HumanMessage(content=res.content)
+
+        builder = MessageGraph()
+        builder.add_node("generate", generation_node)
+        builder.add_node("reflect", reflection_node)
+        builder.set_entry_point("generate")
 
 
-    # builder.add_conditional_edges("generate", should_continue)
-    # builder.add_edge("reflect", "generate")
-    # graph = builder.compile()
-    # def run_graph():
-    #     for event in graph.stream(
-    #         [
-    #             HumanMessage(
-    #                 content="Displays the number of works orders assigned to each staff member"
-    #             )
-    #         ],
-    #     ):
-    #         print(event)
-    #         print("----------------------")
-    #     print("=================event==================", event)
-    #     # ChatPromptTemplate.from_messages(event[END]).pretty_print()
-    # run_graph()
+        def should_continue(state: List[BaseMessage]):
+            if len(state) > 2:
+                # End after 3 iterations
+                return END
+            return "reflect"
+
+
+        builder.add_conditional_edges("generate", should_continue)
+        builder.add_edge("reflect", "generate")
+        graph = builder.compile()
+        def run_graph():
+            for event in graph.stream(
+                [
+                    HumanMessage(
+                        content="Displays the number of works orders assigned to each staff member"
+                    )
+                ],
+            ):
+                print(event)
+                print("----------------------")
+            print("=================event==================", event)
+            # ChatPromptTemplate.from_messages(event[END]).pretty_print()
+        run_graph()
 
