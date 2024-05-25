@@ -1,0 +1,90 @@
+{
+    "charts": [
+        {
+            "chartType": "bar",
+            "description": "Displays the number of works orders by status",
+            "groupBy": {
+                "field": "Works Order Status"
+            },
+            "name": "Works Orders by Status",
+            "table": "Works Orders",
+            "yAxes": [
+                {
+                    "aggregateFunction": "count"
+                }
+            ]
+        },
+        {
+            "chartType": "bar",
+            "description": "Displays the total cost of works orders by type",
+            "groupBy": {
+                "field": "Works Order Type"
+            },
+            "name": "Works Orders by Type",
+            "table": "Works Orders",
+            "yAxes": [
+                {
+                    "aggregateFunction": "sum",
+                    "field": "Total Cost"
+                }
+            ]
+        },
+        {
+            "chartType": "line",
+            "description": "Displays the trend of works orders created over time",
+            "groupBy": {
+                "field": "Start Date",
+                "grouping": "month"
+            },
+            "name": "Works Orders Created Over Time",
+            "table": "Works Orders",
+            "yAxes": [
+                {
+                    "aggregateFunction": "count"
+                }
+            ]
+        },
+        {
+            "chartType": "pie",
+            "description": "Shows the percentage of works orders completed",
+            "groupBy": {
+                "field": "Percentage complete"
+            },
+            "name": "Works Orders Completion Percentage",
+            "table": "Works Orders",
+            "yAxes": [
+                {
+                    "aggregateFunction": "count"
+                }
+            ]
+        },
+        {
+            "chartType": "bar",
+            "description": "Displays the number of works orders assigned to each staff member",
+            "groupBy": {
+                "field": "Related Staff Member"
+            },
+            "name": "Works Orders by Staff Member",
+            "table": "Works Orders",
+            "yAxes": [
+                {
+                    "aggregateFunction": "count"
+                }
+            ]
+        },
+        {
+            "chartType": "bar",
+            "description": "Displays the number of works orders assigned to each vendor",
+            "groupBy": {
+                "field": "Related Vendor"
+            },
+            "name": "Works Orders by Vendor",
+            "table": "Works Orders",
+            "yAxes": [
+                {
+                    "aggregateFunction": "count"
+                }
+            ]
+        }
+    ]
+}
