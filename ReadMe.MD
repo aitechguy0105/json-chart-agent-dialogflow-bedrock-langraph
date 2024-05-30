@@ -10,9 +10,12 @@ This project aims to create a tool that can generate custom charts and Quickbase
 3. `python langgraph-demo.py`
 4. set `b_langgraph_agent = True` to see the results of langgraph
 
+
+### User Input: 
+`Displays the number of works orders assigned to each staff member`
+### Quickbase Chart:
+
 ```json 
-User Input: Displays the number of works orders assigned to each staff member
-Quickbase Chart:
 {
     "chartType": "bar",
     "description": "Displays the number of works orders assigned to each staff member",
@@ -28,12 +31,13 @@ Quickbase Chart:
     ]
 }
 ```
-```
-User input: 6 Belongs to 'Tasks'
-Output: query=({'6'.EX.'Tasks'})
-```
+### User input: 
+`6 Belongs to 'Tasks'`
+### Output: 
+`query=({'6'.EX.'Tasks'})`
+
+### Generation Node:
 ```json
-Generation Node:
 {
     "chartType": "bar",
     "description": "Displays the number of works orders assigned to each staff member",
@@ -49,8 +53,8 @@ Generation Node:
     ]
 }
 ```
+### Reflection Node:
 ```
-Reflection Node:
 YES
 
 The generated chart JSON information is correct. Here is the breakdown:
