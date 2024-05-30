@@ -306,7 +306,10 @@ if __name__ == '__main__':
             output_json_obj = json.loads(answer)
             json.dump(output_json_obj, file)
     
-    response = quickbase_query_chain.invoke({"context": quickbase_rules, "example": quickbase_query_example, "request": "4 contains fsdfdf and 7 contains ggggg "})
+    response = quickbase_query_chain.invoke({"context": quickbase_rules, "example": quickbase_query_example, 
+                                            #  "request": "4 contains fsdfdf and 7 contains ggggg or 46 after 05-21-2024 and 61 is 'Sample Co'"})
+                                            "request": "6 Belongs to 'Tasks'"})
+                                            
     print("=============== quickbase query ===========\n", response.content)
     
     b_langgraph_agent = True
@@ -373,7 +376,7 @@ if __name__ == '__main__':
             ):
                 print(event)
                 print("----------------------")
-            print("=================event==================", event)
+            # print("=================event==================", event)
             # ChatPromptTemplate.from_messages(event[END]).pretty_print()
         run_graph()
 
