@@ -2,6 +2,15 @@
 
 This project aims to create a tool that can generate custom charts and Quickbase queries based on user prompts. The tool utilizes the power of large language models, specifically LangChain and LangGraph, along with the OpenAI GPT-4o model, to understand user requests and generate the appropriate outputs.
 
+
+## How to use
+
+1. install python 3.10
+2. `pip install -r requirements.txt`
+3. `python langgraph-demo.py`
+4. set `b_langgraph_agent = True` to see the results of langgraph
+
+
 ## Features
 
 1. **Prompt-based Chart Generation**: Users can provide natural language prompts, and the tool will generate the corresponding Quickbase chart configuration with app schema.
@@ -16,14 +25,6 @@ This project aims to create a tool that can generate custom charts and Quickbase
 - **LangChain**: A framework for building applications with large language models.
 - **LangGraph**: A tool for integrating knowledge graphs into language models.
 - **OpenAI GPT-4o**: A powerful large language model used for generating charts and queries.
-
-
-## How to use
-
-1. install python 3.10
-2. `pip install -r requirements.txt`
-3. `python langgraph-demo.py`
-
 
 ## Contributing
 
