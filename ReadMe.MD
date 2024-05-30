@@ -10,7 +10,60 @@ This project aims to create a tool that can generate custom charts and Quickbase
 3. `python langgraph-demo.py`
 4. set `b_langgraph_agent = True` to see the results of langgraph
 
+```json 
+User Input: Displays the number of works orders assigned to each staff member
+Quickbase Chart:
+{
+    "chartType": "bar",
+    "description": "Displays the number of works orders assigned to each staff member",
+    "groupBy": {
+        "field": "Related Staff Member"
+    },
+    "name": "Works Orders by Staff Member",
+    "table": "Works Orders",
+    "yAxes": [
+        {
+            "aggregateFunction": "count"
+        }
+    ]
+}
+```
+```
+User input: 6 Belongs to 'Tasks'
+Output: query=({'6'.EX.'Tasks'})
+```
+```json
+Generation Node:
+{
+    "chartType": "bar",
+    "description": "Displays the number of works orders assigned to each staff member",
+    "groupBy": {
+        "field": "Related Staff Member"
+    },
+    "name": "Works Orders by Staff Member",
+    "table": "Works Orders",
+    "yAxes": [
+        {
+            "aggregateFunction": "count"
+        }
+    ]
+}
+```
+```
+Reflection Node:
+YES
 
+The generated chart JSON information is correct. Here is the breakdown:
+
+1. **chartType**: "bar" - This is appropriate for displaying counts.
+2. **description**: "Displays the number of works orders assigned to each staff member" - This matches the user request.
+3. **groupBy**: 
+   - **field**: "Related Staff Member" - This is the correct field to group by to show the number of works orders assigned to each staff member.
+4. **name**: "Works Orders by Staff Member" - This is a suitable name for the chart.
+5. **table**: "Works Orders" - This is the correct table to use.
+6. **yAxes**: 
+   - **aggregateFunction**: "count" - This is the correct aggregate function to count the number of works orders.
+```
 ## Features
 
 1. **Prompt-based Chart Generation**: Users can provide natural language prompts, and the tool will generate the corresponding Quickbase chart configuration with app schema.
