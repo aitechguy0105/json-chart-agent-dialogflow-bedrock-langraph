@@ -33,7 +33,7 @@ This project aims to create a tool that can generate custom charts and Quickbase
 ```
 ### User input: 
 `6 Belongs to 'Tasks'`
-### Output: 
+### Quickbases Query: 
 `query=({'6'.EX.'Tasks'})`
 
 ### Generation Node:
