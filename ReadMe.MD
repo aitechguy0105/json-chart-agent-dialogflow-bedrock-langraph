@@ -8,7 +8,8 @@ This project aims to create a tool that can generate custom charts and Quickbase
 1. install python 3.10
 2. `pip install -r requirements.txt`
 3. `python langgraph-demo.py`
-4. set `b_langgraph_agent = True` to see the results of langgraph
+4. `python bedrock-agent-demo.py`
+5. set `b_langgraph_agent = True` to see the results of langgraph
 
 
 ### User Input: 
