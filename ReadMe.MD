@@ -84,6 +84,19 @@ The generated chart JSON information is correct. Here is the breakdown:
 - **LangGraph**: A tool for integrating knowledge graphs into language models.
 - **OpenAI GPT-4o**: A powerful large language model used for generating charts and queries.
 
+## Bedrock Agent
+- click `Edit in Agent Builder` button
+![alt text](./1-1.PNG)
+- scroll down, in advanced prompts section, `click Edit` button
+![alt text](./1-2.PNG)
+- click `Ochestration` tab, add prompt (<app_schema>)
+![alt text](./1-3.PNG)
+- add prompt (<example_schema>)
+![alt text](./1-4.PNG)
+- agentID
+![alt text](./1.PNG)
+- agentAliasID
+![alt text](./2.PNG)
 ## Contributing
 
 Contributions to this project are welcome. If you have any ideas, bug fixes, or feature enhancements, please feel free to submit a pull request or open an issue.

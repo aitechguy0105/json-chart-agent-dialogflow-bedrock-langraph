@@ -17,13 +17,8 @@ import sys
 #echo $AWS_SECRET_ACCESS_KEY
 #echo $AWS_SESSION_TOKEN
 #os.environ["AWS_PROFILE"] = "agent-demo"
-
-agentId = "JR3RMLFNU8" #INPUT YOUR AGENT ID HERE
-agentAliasId = "EDC5BNXEDX" # Hits draft alias, set to a specific alias id for a deployed version
-
-theRegion = "us-east-1"
-os.environ["AWS_REGION"] = theRegion
-region = os.environ.get("AWS_REGION")
+ 
+ 
 llm_response = ""
 
 def sigv4_request(
@@ -180,6 +175,7 @@ def lambda_handler(event, context):
         return {
             "status_code": 500,
             "body": json.dumps({"error": str(e)})
+
         }
 
 

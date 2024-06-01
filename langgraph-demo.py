@@ -19,9 +19,9 @@ def _set_if_undefined(var: str) -> None:
         return
     os.environ[var] = getpass.getpass(var)
 # Optional: Configure tracing to visualize and debug the agent
-_set_if_undefined("LANGCHAIN_API_KEY")
-os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_PROJECT"] = "Reflection"
+# _set_if_undefined("LANGCHAIN_API_KEY")
+# os.environ["LANGCHAIN_TRACING_V2"] = "true"
+# os.environ["LANGCHAIN_PROJECT"] = "Reflection"
 
 
 # _set_if_undefined("FIREWORKS_API_KEY")

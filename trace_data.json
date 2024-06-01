@@ -1,0 +1,1 @@
+{"chartType": "bar", "description": "Displays the number of works orders assigned to each staff member", "groupBy": {"field": "Related Staff Member"}, "name": "Works Orders by Assigned Staff Member", "table": "Works Orders", "yAxes": [{"aggregateFunction": "count  "}]}
