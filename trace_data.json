@@ -1,1 +1,1 @@
-{"chartType": "bar", "description": "Displays the number of works orders assigned to each staff member", "groupBy": {"field": "Related Staff Member"}, "name": "Works Orders by Assigned Staff Member", "table": "Works Orders", "yAxes": [{"aggregateFunction": "count  "}]}
+{"chartType": "pie", "description": "Shows the percentage of works orders completed", "groupBy": {"field": "Percentage complete"}, "name": "Works Orders Completion Percentage", "table": "Works Orders", "yAxes": [{"aggregateFunction": "count"}]}

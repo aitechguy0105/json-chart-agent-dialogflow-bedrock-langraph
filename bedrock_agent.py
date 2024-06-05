@@ -18,7 +18,9 @@ import sys
 #echo $AWS_SESSION_TOKEN
 #os.environ["AWS_PROFILE"] = "agent-demo"
  
- 
+theRegion = 'us-east-1'
+agentId = 'JR3RMLFNU8'
+agentAliasId = 'EDC5BNXEDX'
 llm_response = ""
 
 def sigv4_request(
@@ -28,7 +30,7 @@ def sigv4_request(
     params=None,
     headers=None,
     service='execute-api',
-    region=os.environ['AWS_REGION'],
+    region=theRegion,
     credentials=Session().get_credentials().get_frozen_credentials()
 ):
     """Sends an HTTP request signed with SigV4

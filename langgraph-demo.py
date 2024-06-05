@@ -4,7 +4,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.prompts.chat import SystemMessagePromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage
 from typing import List, Sequence
-
+import time
 from langgraph.graph import END, MessageGraph
 
 import os
@@ -295,9 +295,23 @@ if __name__ == '__main__':
     app_json_str = json.dumps(app_json_obj)
     with open('app_mapped.json', 'w') as file:
         json.dump(app_json_obj, file)
-    
-    response = quickbase_chart_chain.invoke({"context": app_json_str, "example": quickbase_chart_example, "request": "Displays the number of works orders assigned to each staff member"})
-    print("============= quickbase chart =============", response.content)
+    request_list = [
+        "Displays the number of works orders assigned to each vendor",
+        "Displays the number of works orders assigned to each staff member",
+        "Shows the percentage of works orders completed",
+    ]
+    for request in request_list:
+        # Record the start time
+        start_time = time.time()
+        response = quickbase_chart_chain.invoke({"context": app_json_str, "example": quickbase_chart_example, "request": request})
+        # Record the end time
+        end_time = time.time()
+
+        # Calculate the difference
+        execution_time = end_time - start_time
+
+        print(f"Execution time: {execution_time} seconds")
+        print("============= quickbase chart =============", response.content)
 
     if response.content.find('```') != -1:
         answer = response.content.split('```')[1]
@@ -312,7 +326,7 @@ if __name__ == '__main__':
                                             
     print("=============== quickbase query ===========\n", response.content)
     
-    b_langgraph_agent = True
+    b_langgraph_agent = False
 
     if b_langgraph_agent:
 
