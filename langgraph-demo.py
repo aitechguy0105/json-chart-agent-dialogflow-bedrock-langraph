@@ -306,7 +306,6 @@ if __name__ == '__main__':
         response = quickbase_chart_chain.invoke({"context": app_json_str, "example": quickbase_chart_example, "request": request})
         # Record the end time
         end_time = time.time()
-
         # Calculate the difference
         execution_time = end_time - start_time
 
@@ -326,6 +325,7 @@ if __name__ == '__main__':
                                             
     print("=============== quickbase query ===========\n", response.content)
     
+    # langgraph demo for chart json
     b_langgraph_agent = False
 
     if b_langgraph_agent:

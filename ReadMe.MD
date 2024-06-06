@@ -85,6 +85,27 @@ The generated chart JSON information is correct. Here is the breakdown:
 - **OpenAI GPT-4o**: A powerful large language model used for generating charts and queries.
 
 ## Bedrock Agent
+- model : Claude 2.1
+- Instruction for the Chart Agent :   
+  ```You are a chart agent generating chart in json format based on app information. 
+  You should learn from provided examples. What you should learn: 
+  1. Output Schema.
+  2. How to determine chartType from user request.
+  3. How to determine table to answer user request. 
+  4. How to determine field to group by.
+  5. How to determine aggregate function. 
+  Here's additional information: 
+  1. chartType: bar, line, pie 
+  2. aggregateFunction: sum, average, count. 
+  Double check your work.
+  ```
+- Instruction for the Query Agent :
+  ```
+  You are a agent generating Quickbase query correponding to user request. 
+  Please learn rules from provided examples. 
+  Pleae make sure to follow the rules. 
+  Double check your work. 
+  ```
 - click `Edit in Agent Builder` button
 ![alt text](./1-1.PNG)
 - scroll down, in advanced prompts section, `click Edit` button
